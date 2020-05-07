@@ -191,11 +191,11 @@ function openGoods(e) {
         data.forEach(createCardGood)
       });
     }
-    else {//если не авторизованы - вызываем модальное окно
-      toggleModalAuth()
-      //returnMain()
-    }
-  } 
+    
+  } else {//если не авторизованы - вызываем модальное окно
+    toggleModalAuth()
+    //returnMain()
+  }
 }
 
 
