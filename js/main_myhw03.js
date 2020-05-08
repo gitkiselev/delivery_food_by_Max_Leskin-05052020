@@ -26,21 +26,8 @@ const modalPrice = document.querySelector('.modal-pricetag')
 const buttonClearCart = document.querySelector('.clear-cart')
 let login = localStorage.getItem('gloDelivery');
 
-const cart = []
-const loadCart = function() {
-  if(localStorage.getItem(login)) {
-    JSON.parse(localStorage.getItem(login)).forEach(item => {
-      cart.push(item)
-    })
-  }
-}
-
+let cart = JSON.parse(localStorage.getItem('cart')) || []
 console.log(cart);
-
-const saveCart = function() {
-  localStorage.setItem(login, JSON.stringify(cart))
-}
-
 
 const getData = async function(url) {
   const response = await fetch(url)
@@ -76,7 +63,6 @@ function returnMain() {
 function authorized() {
   function logOut() {
     login = null
-    cart.length = 0
     localStorage.removeItem('gloDelivery')
     buttonAuth.style.display = ''
     userName.style.display = ''
@@ -94,7 +80,6 @@ function authorized() {
   buttonOut.style.display = 'flex'
   cartButton.style.display = 'flex'
   buttonOut.addEventListener('click', logOut)
-  loadCart()
 }
 
 function notAuthorized() {
@@ -241,9 +226,11 @@ function addToCart(e) {
         cost: cost,
         count: 1
       })
+      
     }
+    localStorage.setItem('cart', JSON.stringify(cart))//работает
   }
-  saveCart()
+  
 }
 
 function renderCart() {
@@ -289,12 +276,11 @@ function changeCount(e) {
       food.count++
       
     }
-    renderCart()
-    //localStorage.setItem('cart', JSON.stringify(cart))
-
+    localStorage.setItem('cart', JSON.stringify(cart))
   }
   
-  saveCart()
+    renderCart()
+  
 }
 
 function init() {
