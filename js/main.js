@@ -190,21 +190,21 @@ const openGoods = e => {
     const restaurant = target.closest('.card-restaurant')//вся карточка
     if(restaurant) {
       
-      const [ name, price, stars, kitchen ] = restaurant.info;
-    
+    const [ name, price, stars, kitchen ] = restaurant.info;
+
     cardsMenu.textContent = ''//очищаем, чтоб не дублировались при повторном входе
-      
+
     containerPromo.classList.add('hide')
     restaurants.classList.add('hide')
     menu.classList.remove('hide')
-      restaurantTitle.textContent = name;
-      rating.textContent = stars;
-      minPrice.textContent = 'От ' +  price + ' ₽';
-      category.textContent = kitchen;
+    restaurantTitle.textContent = name;
+    rating.textContent = stars;
+    minPrice.textContent = 'От ' +  price + ' ₽';
+    category.textContent = kitchen;
 
-      getData(`./db/${restaurant.products}`).then(data => {
-        data.forEach(createCardGood)
-      });
+    getData(`./db/${restaurant.products}`).then(data => {
+    data.forEach(createCardGood)
+    });
     }
     
   } else {//если не авторизованы - вызываем модальное окно
@@ -245,7 +245,7 @@ const renderCart = () => {
  
   modalBody.textContent = ''
   
-  cart.forEach(function({id, title, cost, count}){
+  cart.forEach(({id, title, cost, count}) => {
     const itemCart = `
     <div class="food-row">
       <span class="food-name">${title}</span>
