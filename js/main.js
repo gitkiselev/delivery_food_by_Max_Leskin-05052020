@@ -131,23 +131,23 @@ const createCardRestaurant = restaurant => {//карточка ресторан�
   
   card.insertAdjacentHTML('beforeend', `
  
-                  <img src="${image}" alt="image" class="card-image"/>
-                  <div class="card-text">
-                    <div class="card-heading">
-                      <h3 class="card-title">${name}</h3>
-                      <span class="card-tag tag">${timeOfDelivery} мин</span>
-                    </div>
-                    <div class="card-info">
-                      <div class="rating">
-                        ${stars}
-                      </div>
-                      <div class="price">От ${price} ₽</div>
-                      <div class="category">${kitchen}</div>
-                    </div>
-                  </div>
-                  `)
-                  
-                cardsRestaurants.insertAdjacentElement('beforeend', card)
+    <img src="${image}" alt="image" class="card-image"/>
+    <div class="card-text">
+      <div class="card-heading">
+        <h3 class="card-title">${name}</h3>
+        <span class="card-tag tag">${timeOfDelivery} мин</span>
+      </div>
+      <div class="card-info">
+        <div class="rating">
+          ${stars}
+        </div>
+        <div class="price">От ${price} ₽</div>
+        <div class="category">${kitchen}</div>
+      </div>
+    </div>
+    `)
+    
+  cardsRestaurants.insertAdjacentElement('beforeend', card)
 }
 
 
@@ -158,25 +158,25 @@ const createCardGood = ({ description, image, name, price, id }) => {//Карт�
   card.className = 'card'
   
   card.insertAdjacentHTML('beforeend',`
-                      <img src="${image}" alt="${name}" class="card-image"/>
-                      <div class="card-text">
-                        <div class="card-heading">
-                          <h3 class="card-title card-title-reg">${name}</h3>
-                        </div>
-                        <div class="card-info">
-                          <div class="ingredients">${description}
-                          </div>
-                        </div>
-                        <div class="card-buttons">
-                          <button class="button button-primary button-add-cart" id="${id}">
-                            <span class="button-card-text">В корзину</span>
-                            <span class="button-cart-svg"></span>
-                          </button>
-                          <strong class="card-price card-price-bold">${price} ₽</strong>
-                        </div>
-                      </div>
-                    `)
-                    cardsMenu.insertAdjacentElement('beforeend', card)
+    <img src="${image}" alt="${name}" class="card-image"/>
+    <div class="card-text">
+      <div class="card-heading">
+        <h3 class="card-title card-title-reg">${name}</h3>
+      </div>
+      <div class="card-info">
+        <div class="ingredients">${description}
+        </div>
+      </div>
+      <div class="card-buttons">
+        <button class="button button-primary button-add-cart" id="${id}">
+          <span class="button-card-text">В корзину</span>
+          <span class="button-cart-svg"></span>
+        </button>
+        <strong class="card-price card-price-bold">${price} ₽</strong>
+      </div>
+    </div>
+  `)
+  cardsMenu.insertAdjacentElement('beforeend', card)
 }
 
 const openGoods = e => {
@@ -186,25 +186,25 @@ const openGoods = e => {
     const restaurant = target.closest('.card-restaurant')//вся карточка
     if(restaurant) {
       
-    const [ name, price, stars, kitchen ] = restaurant.info;
+      const [ name, price, stars, kitchen ] = restaurant.info;
 
-    cardsMenu.textContent = ''//очищаем, чтоб не дублировались при повторном входе
+      cardsMenu.textContent = ''//очищаем, чтоб не дублировались при повторном входе
 
-    containerPromo.classList.add('hide')
-    restaurants.classList.add('hide')
-    menu.classList.remove('hide')
-    restaurantTitle.textContent = name;
-    rating.textContent = stars;
-    minPrice.textContent = 'От ' +  price + ' ₽';
-    category.textContent = kitchen;
+      containerPromo.classList.add('hide')
+      restaurants.classList.add('hide')
+      menu.classList.remove('hide')
+      restaurantTitle.textContent = name;
+      rating.textContent = stars;
+      minPrice.textContent = 'От ' +  price + ' ₽';
+      category.textContent = kitchen;
 
-    getData(`./db/${restaurant.products}`).then(data => {
-    data.forEach(createCardGood)
-    });
+      getData(`./db/${restaurant.products}`).then(data => {
+        data.forEach(createCardGood)
+      });
     }
     
   } else {//если не авторизованы - вызываем модальное окно
-    toggleModalAuth()
+      toggleModalAuth()
   }
 }
 
@@ -255,7 +255,7 @@ const renderCart = () => {
   modalPrice.textContent = totalPrice + ' ₽'
 }
 
-const changeCount = (e) => {
+const changeCount = e => {
   const target = e.target
   if(target.classList.contains('counter-button')) {
     const food = cart.find(item => {
@@ -299,7 +299,7 @@ const init = () => {
      restaurants.classList.remove('hide')
      menu.classList.add('hide')
    })
-   inputSearch.addEventListener('keydown', (e) => {
+   inputSearch.addEventListener('keydown', e => {
     if(e.keyCode === 13) {
       const value = e.target.value.toLowerCase().trim();
       e.target.value = ''
