@@ -1,5 +1,4 @@
 'use strict'
-
 const cartButton = document.querySelector("#cart-button");
 const modal = document.querySelector(".modal");
 const close = document.querySelector(".close");
@@ -24,7 +23,7 @@ const inputSearch = document.querySelector('.input-search')
 const modalBody = document.querySelector('.modal-body')
 const modalPrice = document.querySelector('.modal-pricetag')
 const buttonClearCart = document.querySelector('.clear-cart')
-let login = localStorage.getItem('gloDelivery');
+let login = localStorage.getItem('gloDelivery')
 
 const cart = []
 const loadCart = () => {
@@ -34,8 +33,6 @@ const loadCart = () => {
     })
   }
 }
-
-console.log(cart);
 
 const saveCart = () => {
   localStorage.setItem(login, JSON.stringify(cart))
@@ -48,7 +45,6 @@ const getData = async (url) => {
     throw new Error(`Ошибка по адресу ${url}, статус ошибки ${response.status}!`)
   }
   return await response.json()
-  
 }
 
 getData('./db/partners.json')
@@ -99,7 +95,7 @@ const authorized = () => {
 
 const notAuthorized = () => {
   
-  const logIn = (e) => {
+  const logIn = e => {
     e.preventDefault()
     if(valid(loginInput.value)) {
       login = loginInput.value
@@ -125,7 +121,7 @@ const checkAuth = () => login ? authorized() : notAuthorized()
   
 checkAuth()
 
-const createCardRestaurant = (restaurant) => {//карточка ресторана
+const createCardRestaurant = restaurant => {//карточка ресторана
   const { image, kitchen, name, price, stars, products, time_of_delivery: timeOfDelivery } = restaurant
 
   const card = document.createElement('a');
@@ -213,8 +209,6 @@ const openGoods = e => {
 }
 
 const addToCart = e => {
-  
-  
   const target = e.target
   const buttonAddToCart = target.closest('.button-add-cart')
 
@@ -223,8 +217,6 @@ const addToCart = e => {
     const title = card.querySelector('.card-title-reg').textContent
     const cost = card.querySelector('.card-price').textContent
     const id = buttonAddToCart.id
-    console.log(title, cost, id);
-
     const food = cart.find(item => item.id === id)
 
     if(food) {
@@ -242,9 +234,7 @@ const addToCart = e => {
 }
 
 const renderCart = () => {
- 
   modalBody.textContent = ''
-  
   cart.forEach(({id, title, cost, count}) => {
     const itemCart = `
     <div class="food-row">
@@ -257,7 +247,6 @@ const renderCart = () => {
       </div>
     </div>
     `
-
     modalBody.insertAdjacentHTML('afterbegin', itemCart)
   })
   const totalPrice = cart.reduce((result, item) => {
@@ -277,12 +266,10 @@ const changeCount = (e) => {
       
       if(food.count === 0) {
         cart.splice(cart.indexOf(food), 1)
-        
       }
     }
     if(target.classList.contains('counter-plus')) {
       food.count++
-      
     }
     renderCart()
   }
@@ -358,7 +345,6 @@ const init = () => {
     }
     
    })
-   
    
    new Swiper('.swiper-container', {
      loop: true,
