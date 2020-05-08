@@ -27,7 +27,7 @@ const buttonClearCart = document.querySelector('.clear-cart')
 let login = localStorage.getItem('gloDelivery');
 
 const cart = []
-const loadCart = function() {
+const loadCart = () => {
   if(localStorage.getItem(login)) {
     JSON.parse(localStorage.getItem(login)).forEach(item => {
       cart.push(item)
@@ -37,12 +37,12 @@ const loadCart = function() {
 
 console.log(cart);
 
-const saveCart = function() {
+const saveCart = () => {
   localStorage.setItem(login, JSON.stringify(cart))
 }
 
 
-const getData = async function(url) {
+const getData = async (url) => {
   const response = await fetch(url)
   if(!response.ok) {
     throw new Error(`Ошибка по адресу ${url}, статус ошибки ${response.status}!`)
@@ -67,14 +67,14 @@ const toggleModalAuth = () => {
   modalAuth.classList.toggle('is-open')
 }
 
-function returnMain() {
+const returnMain = () => {
   containerPromo.classList.remove('hide')
   restaurants.classList.remove('hide')
   menu.classList.add('hide')
 }
 
-function authorized() {
-  function logOut() {
+const authorized = () => {
+  const logOut = () => {
     login = null
     cart.length = 0
     localStorage.removeItem('gloDelivery')
@@ -97,9 +97,9 @@ function authorized() {
   loadCart()
 }
 
-function notAuthorized() {
+const notAuthorized = () => {
   
-  function logIn(e) {
+  const logIn = (e) => {
     e.preventDefault()
     if(valid(loginInput.value)) {
       login = loginInput.value
@@ -121,16 +121,11 @@ function notAuthorized() {
   
 }
 
-function checkAuth() {
-  if(login) {
-    authorized()
-  } else {
-  notAuthorized()
-  }
-}
+const checkAuth = () => login ? authorized() : notAuthorized()
+  
 checkAuth()
 
-function createCardRestaurant(restaurant) {//карточка ресторана
+const createCardRestaurant = (restaurant) => {//карточка ресторана
   const { image, kitchen, name, price, stars, products, time_of_delivery: timeOfDelivery } = restaurant
 
   const card = document.createElement('a');
@@ -160,12 +155,12 @@ function createCardRestaurant(restaurant) {//карточка ресторана
 }
 
 
-function createCardGood({ description, image, name, price, id }) {//Карточки товаров конкретного ресторана
+const createCardGood = ({ description, image, name, price, id }) => {//Карточки товаров конкретного ресторана
   
   const card = document.createElement('div')
   
   card.className = 'card'
-  //card.id = id
+  
   card.insertAdjacentHTML('beforeend',`
                       <img src="${image}" alt="${name}" class="card-image"/>
                       <div class="card-text">
@@ -188,7 +183,7 @@ function createCardGood({ description, image, name, price, id }) {//Карточ
                     cardsMenu.insertAdjacentElement('beforeend', card)
 }
 
-function openGoods(e) {
+const openGoods = e => {
   
   const target = e.target
   if(login) {
@@ -217,7 +212,7 @@ function openGoods(e) {
   }
 }
 
-function addToCart(e) {
+const addToCart = e => {
   
   
   const target = e.target
@@ -229,9 +224,9 @@ function addToCart(e) {
     const cost = card.querySelector('.card-price').textContent
     const id = buttonAddToCart.id
     console.log(title, cost, id);
-    const food = cart.find((item) => {
-      return item.id === id
-    })
+
+    const food = cart.find(item => item.id === id)
+
     if(food) {
       food.count++
     } else {
@@ -246,7 +241,7 @@ function addToCart(e) {
   saveCart()
 }
 
-function renderCart() {
+const renderCart = () => {
  
   modalBody.textContent = ''
   
@@ -271,10 +266,10 @@ function renderCart() {
   modalPrice.textContent = totalPrice + ' ₽'
 }
 
-function changeCount(e) {
+const changeCount = (e) => {
   const target = e.target
   if(target.classList.contains('counter-button')) {
-    const food = cart.find((item) => {
+    const food = cart.find(item => {
       return item.id === target.dataset.id
     })
     if(target.classList.contains('counter-minus')) {
@@ -290,15 +285,12 @@ function changeCount(e) {
       
     }
     renderCart()
-    //localStorage.setItem('cart', JSON.stringify(cart))
-
   }
-  
   saveCart()
 }
 
-function init() {
-  getData('./db/partners.json').then(function(data) {
+const init = () => {
+  getData('./db/partners.json').then(data => {
     data.forEach(createCardRestaurant)
    });
    buttonClearCart.addEventListener('click', () => {
@@ -309,17 +301,18 @@ function init() {
    modalBody.addEventListener('click', changeCount)
    cardsMenu.addEventListener('click', addToCart)
    close.addEventListener("click", toggleModal);// закрытие окна авторизации
-   cartButton.addEventListener("click", () => {
-    renderCart()
-    toggleModal()
-   });//переключение
+   
+   cartButton.addEventListener("click", renderCart);//переключение
+
+   cartButton.addEventListener("click", toggleModal);//переключение
+
    cardsRestaurants.addEventListener('click', openGoods)//переход в конкретный ресторан
-   logo.addEventListener('click', function() {//возврат к списку ресторанов
+   logo.addEventListener('click', () => {//возврат к списку ресторанов
      containerPromo.classList.remove('hide')
      restaurants.classList.remove('hide')
      menu.classList.add('hide')
    })
-   inputSearch.addEventListener('keydown', function(e) {
+   inputSearch.addEventListener('keydown', (e) => {
     if(e.keyCode === 13) {
       const value = e.target.value.toLowerCase().trim();
       e.target.value = ''
@@ -338,11 +331,11 @@ function init() {
         const products = data.map(item => {
           return item.products
         })
-        products.forEach((product) => {
+        products.forEach(product => {
           getData(`./db/${product}`)
-          .then((data) => {
+          .then(data => {
             goods.push(...data)
-            const searchGoods = goods.filter((item) => {
+            const searchGoods = goods.filter(item => {
               return item.name.toLowerCase().includes(value)
             })
 
@@ -357,7 +350,7 @@ function init() {
             category.textContent = '';
             return searchGoods
 
-          }).then((data) => {
+          }).then(data => {
             data.forEach(createCardGood)
           })
         })
