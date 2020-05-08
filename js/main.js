@@ -49,7 +49,7 @@ const getData = async (url) => {
 
 getData('./db/partners.json')
 
-const valid = (str) => {
+const valid = str => {
   const nameReg = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/
   return nameReg.test(str)
 }
