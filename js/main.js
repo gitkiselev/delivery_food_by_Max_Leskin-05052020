@@ -314,7 +314,6 @@ const init = () => {
       const goods = []
       getData('./db/partners.json')
       .then(data => {
-        console.log(data);
         const products = data.map(item => {
           return item.products
         })
